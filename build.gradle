@@ -1,0 +1,35 @@
+plugins {
+    id 'java'
+    id 'idea'
+    id "com.github.johnrengelman.shadow" version "2.0.1"
+}
+
+group 'hexGraph-netty-websocket'
+version '1.0-SNAPSHOT'
+sourceCompatibility = 1.8
+
+repositories {
+    jcenter()
+}
+
+ext {
+    nettyVersion = '4.1.20.Final'
+    slf4jVersion = '1.7.25'
+    log4jVersion = '2.10.0'
+
+    jUnitVersion = '3.8.2'
+}
+
+dependencies {
+    implementation "org.slf4j:slf4j-api:${slf4jVersion}"
+    implementation "org.apache.logging.log4j:log4j-api:${log4jVersion}"
+    implementation "org.apache.logging.log4j:log4j-core:${log4jVersion}"
+    implementation "org.apache.logging.log4j:log4j-slf4j-impl:${log4jVersion}"
+    implementation "io.netty:netty-all:${nettyVersion}"
+
+    testImplementation "junit:junit:${jUnitVersion}"
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '4.1' //version required
+}
