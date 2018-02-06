@@ -1,55 +1,51 @@
 package hexgraph.websocket.http.handler;
 
-import hexgraph.websocket.websocket.handler.WebSocketHandler;
+import hexgraph.websocket.websocket.handler.InboundWebSocketHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
-import io.netty.handler.codec.http.FullHttpMessage;
-import io.netty.handler.codec.http.FullHttpRequest;
 import io.netty.handler.codec.http.HttpHeaders;
 import io.netty.handler.codec.http.HttpRequest;
 import io.netty.handler.codec.http.websocketx.WebSocketServerHandshaker;
 import io.netty.handler.codec.http.websocketx.WebSocketServerHandshakerFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.net.URISyntaxException;
 
 public class HttpServerHandler extends ChannelInboundHandlerAdapter {
+    public static final Logger LOGGER = LoggerFactory.getLogger(HttpServerHandler.class);
+
+    private static final String WEB_SOCKET_HANDLER_NAME = "webSocketHandler";
+
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        if (msg instanceof FullHttpMessage) {
-            System.out.println("Full HTTP Message Received");
-        }
-        else if (msg instanceof HttpRequest) {
-
-            if (msg instanceof FullHttpRequest) {
-                System.out.println("Full HTTP Request");
-            }
-
+        if (msg instanceof HttpRequest) {
             HttpRequest httpRequest = (HttpRequest) msg;
 
-            System.out.println("Http Request Received");
+            LOGGER.info("Http Request Received");
 
             HttpHeaders headers = httpRequest.headers();
-            System.out.println("Connection : " +headers.get("Connection"));
-            System.out.println("Upgrade : " + headers.get("Upgrade"));
+            LOGGER.info("Connection : " + headers.get("Connection"));
+            LOGGER.info("Upgrade : " + headers.get("Upgrade"));
 
             if (headers.get("Connection").equalsIgnoreCase("Upgrade") ||
                     headers.get("Upgrade").equalsIgnoreCase("WebSocket")) {
 
                 //Adding new handler to the existing pipeline to handle WebSocket Messages
-                ctx.pipeline().replace(this, "websocketHandler", new WebSocketHandler());
+                ctx.pipeline().replace(this, WEB_SOCKET_HANDLER_NAME, new InboundWebSocketHandler());
 
-                System.out.println("WebSocketHandler added to the pipeline");
+                LOGGER.info("InboundWebSocketHandler added to the pipeline");
 
-                System.out.println("Opened Channel : " + ctx.channel());
+                LOGGER.info("Opened Channel : " + ctx.channel());
 
-                System.out.println("Handshaking....");
+                LOGGER.info("Handshaking....");
                 //Do the Handshake to upgrade connection from HTTP to WebSocket protocol
                 handleHandshake(ctx, httpRequest);
-                System.out.println("Handshake is done");
+                LOGGER.info("Handshake is done");
 
             }
         } else {
-            System.out.println("Incoming request is unknown");
+            LOGGER.info("Incoming request is unknown");
         }
     }
 
@@ -57,19 +53,19 @@ public class HttpServerHandler extends ChannelInboundHandlerAdapter {
     protected void handleHandshake(ChannelHandlerContext ctx, HttpRequest req) throws URISyntaxException {
         WebSocketServerHandshakerFactory wsFactory = new WebSocketServerHandshakerFactory(getWebSocketURL(req),
                 null, true);
-        WebSocketServerHandshaker handshaker = wsFactory.newHandshaker(req);
-        if (handshaker == null) {
+        WebSocketServerHandshaker handShaker = wsFactory.newHandshaker(req);
+        if (handShaker == null) {
             WebSocketServerHandshakerFactory.sendUnsupportedVersionResponse(ctx.channel());
         } else {
-            handshaker.handshake(ctx.channel(), req);
+            handShaker.handshake(ctx.channel(), req);
         }
     }
 
 
     protected String getWebSocketURL(HttpRequest req) {
-        System.out.println("Req URI : " + req.getUri());
-        String url =  "ws://" + req.headers().get("Host") + req.getUri() ;
-        System.out.println("Constructed URL : " + url);
+        LOGGER.info("Req URI : " + req.uri());
+        String url = "ws://" + req.headers().get("Host") + req.uri();
+        LOGGER.info("Constructed URL : " + url);
         return url;
     }
 }
