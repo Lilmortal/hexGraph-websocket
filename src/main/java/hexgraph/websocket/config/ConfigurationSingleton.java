@@ -16,9 +16,13 @@ public class ConfigurationSingleton {
 
     private static final String DIRECTORY_NAME = "directory";
 
+    private static final String CACHE_URI_NAME = "cache.uri";
+
     private int port;
 
     private String directory;
+
+    private String cacheUri;
 
     private ConfigurationSingleton() {
         Properties properties = new Properties();
@@ -30,8 +34,8 @@ public class ConfigurationSingleton {
         }
 
         port = Integer.parseInt(properties.getProperty(PORT_NAME));
-
         directory = properties.getProperty(DIRECTORY_NAME);
+        cacheUri = properties.getProperty(CACHE_URI_NAME);
     }
 
     private static class SingletonHelper {
@@ -48,5 +52,9 @@ public class ConfigurationSingleton {
 
     public String getDirectory() {
         return directory;
+    }
+
+    public String getCacheUri() {
+        return cacheUri;
     }
 }

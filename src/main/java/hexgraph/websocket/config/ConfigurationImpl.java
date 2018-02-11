@@ -12,4 +12,9 @@ public class ConfigurationImpl implements Configuration {
     public String getDirectory() {
         return configurationSingleton.getDirectory();
     }
+
+    @Override
+    public String getCacheUri() {
+        return configurationSingleton.getCacheUri();
+    }
 }

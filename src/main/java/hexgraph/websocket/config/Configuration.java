@@ -4,4 +4,6 @@ public interface Configuration {
     int getPort();
 
     String getDirectory();
+
+    String getCacheUri();
 }

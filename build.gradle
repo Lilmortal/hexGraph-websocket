@@ -17,6 +17,7 @@ ext {
     slf4jVersion = '1.7.25'
     log4jVersion = '2.10.0'
     jacksonVersion = '2.9.3'
+    lettuceVersion = '5.0.1.RELEASE'
 
     jUnitVersion = '3.8.2'
 }
@@ -30,6 +31,7 @@ dependencies {
     implementation "com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}"
     implementation "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:${jacksonVersion}"
     implementation "io.netty:netty-all:${nettyVersion}"
+    implementation "io.lettuce:lettuce-core:${lettuceVersion}"
 
     testImplementation "junit:junit:${jUnitVersion}"
 }

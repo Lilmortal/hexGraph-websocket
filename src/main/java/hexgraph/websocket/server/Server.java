@@ -1,8 +1,17 @@
 package hexgraph.websocket.server;
 
+import hexgraph.websocket.cache.Cache;
+import hexgraph.websocket.cache.CacheImpl;
 import hexgraph.websocket.config.Configuration;
 import hexgraph.websocket.config.ConfigurationImpl;
 import hexgraph.websocket.http.initializer.HTTPInitializer;
+import io.lettuce.core.RedisClient;
+import io.lettuce.core.RedisFuture;
+import io.lettuce.core.api.StatefulRedisConnection;
+import io.lettuce.core.api.reactive.RedisReactiveCommands;
+import io.lettuce.core.api.sync.RedisCommands;
+import io.lettuce.core.pubsub.StatefulRedisPubSubConnection;
+import io.lettuce.core.pubsub.api.reactive.RedisPubSubReactiveCommands;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelOption;
@@ -13,6 +22,8 @@ import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.concurrent.ExecutionException;
 
 public class Server {
     public static final Logger LOGGER = LoggerFactory.getLogger(Server.class);
@@ -28,6 +39,15 @@ public class Server {
         EventLoopGroup workerGroup = new NioEventLoopGroup();
 
         try {
+            Cache cache = new CacheImpl();
+
+            cache.connect(configuration.getCacheUri());
+
+            cache.set("test", "lol");
+            RedisFuture<String> cacheResult = cache.get("test");
+
+            LOGGER.info(cacheResult.get());
+
             ServerBootstrap serverBootstrap = new ServerBootstrap();
             serverBootstrap.option(ChannelOption.SO_BACKLOG, SO_BACKLOG_VALUE);
             serverBootstrap.group(bossGroup, workerGroup)
@@ -38,6 +58,8 @@ public class Server {
             Channel channel = serverBootstrap.bind(configuration.getPort()).sync().channel();
             channel.closeFuture().sync();
         } catch (InterruptedException e) {
+            LOGGER.error(e.getMessage());
+        } catch (ExecutionException e) {
             LOGGER.error(e.getMessage());
         } finally {
             bossGroup.shutdownGracefully();
