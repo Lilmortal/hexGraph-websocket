@@ -33,10 +33,6 @@ public class InboundWebSocketHandler extends ChannelInboundHandlerAdapter {
             if (msg instanceof TextWebSocketFrame) {
                 LOGGER.info("TextWebSocketFrame Received : ");
 
-                cache.set("test", "wee");
-                Future<String> result = cache.get("test");
-
-                LOGGER.info(result.get());
                 try {
                     Path directoryPath = Paths.get(CONFIGURATION.getDirectory());
                     WatchService watchService = FileSystems.getDefault().newWatchService();
@@ -57,6 +53,7 @@ public class InboundWebSocketHandler extends ChannelInboundHandlerAdapter {
                                         .forEach(content -> contents.append(content));
 
                                 ctx.channel().write(new TextWebSocketFrame(contents.toString()));
+                                cache.set(fileName, contents.toString());
                                 ctx.flush();
                             }
                         }
