@@ -1,11 +1,12 @@
 package hexgraph.websocket.cache;
 
 import io.lettuce.core.RedisClient;
-import io.lettuce.core.RedisFuture;
 import io.lettuce.core.api.StatefulRedisConnection;
 import io.lettuce.core.api.async.RedisAsyncCommands;
 
-public class CacheImpl implements Cache {
+import java.util.concurrent.Future;
+
+public class RedisCache implements Cache {
     private RedisAsyncCommands<String, String> asyncCommands;
 
     @Override
@@ -24,7 +25,7 @@ public class CacheImpl implements Cache {
     }
 
     @Override
-    public RedisFuture<String> get(String key) {
+    public Future<String> get(String key) {
         return asyncCommands.get(key);
     }
 }

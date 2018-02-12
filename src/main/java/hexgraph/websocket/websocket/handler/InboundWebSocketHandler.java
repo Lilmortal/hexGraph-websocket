@@ -1,5 +1,7 @@
 package hexgraph.websocket.websocket.handler;
 
+import hexgraph.websocket.cache.Cache;
+import hexgraph.websocket.cache.RedisCache;
 import hexgraph.websocket.config.Configuration;
 import hexgraph.websocket.config.ConfigurationImpl;
 import io.netty.channel.ChannelHandlerContext;
@@ -12,11 +14,18 @@ import java.io.File;
 import java.nio.file.*;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.Future;
 
 public class InboundWebSocketHandler extends ChannelInboundHandlerAdapter {
     public static final Logger LOGGER = LoggerFactory.getLogger(InboundWebSocketHandler.class);
 
     private static final Configuration CONFIGURATION = new ConfigurationImpl();
+
+    private Cache cache;
+
+    public InboundWebSocketHandler(Cache cache) {
+        this.cache = cache;
+    }
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
@@ -24,6 +33,10 @@ public class InboundWebSocketHandler extends ChannelInboundHandlerAdapter {
             if (msg instanceof TextWebSocketFrame) {
                 LOGGER.info("TextWebSocketFrame Received : ");
 
+                cache.set("test", "wee");
+                Future<String> result = cache.get("test");
+
+                LOGGER.info(result.get());
                 try {
                     Path directoryPath = Paths.get(CONFIGURATION.getDirectory());
                     WatchService watchService = FileSystems.getDefault().newWatchService();

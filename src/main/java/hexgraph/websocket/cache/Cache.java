@@ -1,11 +1,11 @@
 package hexgraph.websocket.cache;
 
-import io.lettuce.core.RedisFuture;
+import java.util.concurrent.Future;
 
 public interface Cache {
     void connect(String uri);
 
     void set(String key, String value);
 
-    RedisFuture<String> get(String key);
+    Future<String> get(String key);
 }
