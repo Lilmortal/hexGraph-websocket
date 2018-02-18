@@ -53,6 +53,7 @@ public class InboundWebSocketHandler extends ChannelInboundHandlerAdapter {
                                         .forEach(content -> contents.append(content));
 
                                 ctx.channel().write(new TextWebSocketFrame(contents.toString()));
+                                // TODO: Sort by creation Date
                                 cache.set(fileName, contents.toString());
                                 ctx.flush();
                             }

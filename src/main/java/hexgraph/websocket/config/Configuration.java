@@ -6,4 +6,8 @@ public interface Configuration {
     String getDirectory();
 
     String getCacheUri();
+
+    String getDatabaseNode();
+
+    int getDatabasePort();
 }

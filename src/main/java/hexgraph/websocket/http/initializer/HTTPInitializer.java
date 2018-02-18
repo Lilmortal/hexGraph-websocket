@@ -22,6 +22,7 @@ public class HTTPInitializer extends ChannelInitializer<SocketChannel> {
 
     @Override
     protected void initChannel(SocketChannel socketChannel) throws Exception {
+        // TODO: Should redis have connection pool for multiple concurrent connections?
         cache = new RedisCache();
         cache.connect(CONFIGURATION.getCacheUri());
 

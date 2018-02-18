@@ -18,11 +18,19 @@ public class ConfigurationSingleton {
 
     private static final String CACHE_URI_NAME = "cache.uri";
 
+    private static final String DATABASE_NODE = "db.node";
+
+    private static final String DATABASE_PORT = "db.port";
+
     private int port;
 
     private String directory;
 
     private String cacheUri;
+
+    private String databaseNode;
+
+    private int databasePort;
 
     private ConfigurationSingleton() {
         Properties properties = new Properties();
@@ -36,6 +44,8 @@ public class ConfigurationSingleton {
         port = Integer.parseInt(properties.getProperty(PORT_NAME));
         directory = properties.getProperty(DIRECTORY_NAME);
         cacheUri = properties.getProperty(CACHE_URI_NAME);
+        databaseNode = properties.getProperty(DATABASE_NODE);
+        databasePort = Integer.parseInt(properties.getProperty(DATABASE_PORT));
     }
 
     private static class SingletonHelper {
@@ -56,5 +66,13 @@ public class ConfigurationSingleton {
 
     public String getCacheUri() {
         return cacheUri;
+    }
+
+    public String getDatabaseNode() {
+        return databaseNode;
+    }
+
+    public int getDatabasePort() {
+        return databasePort;
     }
 }

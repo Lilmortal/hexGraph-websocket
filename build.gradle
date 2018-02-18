@@ -18,7 +18,9 @@ ext {
     log4jVersion = '2.10.0'
     jacksonVersion = '2.9.3'
     lettuceVersion = '5.0.1.RELEASE'
+    cassandraDriverCoreVersion = '3.4.0'
 
+    cassandraUnitVersion = '3.3.0.2'
     jUnitVersion = '3.8.2'
 }
 
@@ -32,7 +34,9 @@ dependencies {
     implementation "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:${jacksonVersion}"
     implementation "io.netty:netty-all:${nettyVersion}"
     implementation "io.lettuce:lettuce-core:${lettuceVersion}"
+    implementation "com.datastax.cassandra:cassandra-driver-core:${cassandraDriverCoreVersion}"
 
+    testImplementation "org.cassandraunit:cassandra-unit:${cassandraUnitVersion}"
     testImplementation "junit:junit:${jUnitVersion}"
 }
 

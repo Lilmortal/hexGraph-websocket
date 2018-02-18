@@ -17,4 +17,14 @@ public class ConfigurationImpl implements Configuration {
     public String getCacheUri() {
         return configurationSingleton.getCacheUri();
     }
+
+    @Override
+    public String getDatabaseNode() {
+        return configurationSingleton.getDatabaseNode();
+    }
+
+    @Override
+    public int getDatabasePort() {
+        return configurationSingleton.getDatabasePort();
+    }
 }
