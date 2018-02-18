@@ -12,7 +12,7 @@ public interface HexCodeDao {
 
     void getImageHexCode(String imagePath);
 
-    void insertImageHexCode(String imagePath, LocalDateTime creationDate, Map<String, String> counts);
+    void insertImageHexCode(String imagePath, LocalDateTime creationDate, String counts);
 
     void close();
 }

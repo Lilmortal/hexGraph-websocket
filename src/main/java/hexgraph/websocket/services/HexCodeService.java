@@ -10,5 +10,7 @@ public interface HexCodeService {
 
     void getImageHexCode(String imagePath);
 
+    void setImageHexCode(String imagePath, String json);
+
     void setImageHexCode(String imagePath, LocalDateTime creationDate, Map<String, String> counts);
 }

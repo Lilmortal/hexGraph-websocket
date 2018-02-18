@@ -56,7 +56,7 @@ public class CassandraHexCodeDaoImpl implements HexCodeDao {
     }
 
     @Override
-    public void insertImageHexCode(String imagePath, LocalDateTime creationDate, Map<String, String> counts) {
+    public void insertImageHexCode(String imagePath, LocalDateTime creationDate, String counts) {
         PreparedStatement statement = session.prepare(String.format("INSERT INTO %s (imagePath, creationDate, counts) VALUES (?, ?, ?);"));
 
         BoundStatement boundStatement = new BoundStatement(statement);

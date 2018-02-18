@@ -1,6 +1,7 @@
 package hexgraph.websocket.http.handler;
 
 import hexgraph.websocket.cache.Cache;
+import hexgraph.websocket.services.HexCodeService;
 import hexgraph.websocket.websocket.handler.InboundWebSocketHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
@@ -18,10 +19,10 @@ public class HttpServerHandler extends ChannelInboundHandlerAdapter {
 
     private static final String WEB_SOCKET_HANDLER_NAME = "webSocketHandler";
 
-    private Cache cache = null;
+    private HexCodeService hexCodeService = null;
 
-    public HttpServerHandler(Cache cache) {
-        this.cache = cache;
+    public HttpServerHandler(HexCodeService hexCodeService) {
+        this.hexCodeService = hexCodeService;
     }
 
     @Override
@@ -39,7 +40,7 @@ public class HttpServerHandler extends ChannelInboundHandlerAdapter {
                     headers.get("Upgrade").equalsIgnoreCase("WebSocket")) {
 
                 //Adding new handler to the existing pipeline to handle WebSocket Messages
-                ctx.pipeline().replace(this, WEB_SOCKET_HANDLER_NAME, new InboundWebSocketHandler(cache));
+                ctx.pipeline().replace(this, WEB_SOCKET_HANDLER_NAME, new InboundWebSocketHandler(hexCodeService));
 
                 LOGGER.info("InboundWebSocketHandler added to the pipeline");
 

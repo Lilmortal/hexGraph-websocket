@@ -4,6 +4,7 @@ import hexgraph.websocket.cache.Cache;
 import hexgraph.websocket.cache.RedisCache;
 import hexgraph.websocket.config.Configuration;
 import hexgraph.websocket.config.ConfigurationImpl;
+import hexgraph.websocket.services.HexCodeService;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.handler.codec.http.websocketx.*;
@@ -21,10 +22,10 @@ public class InboundWebSocketHandler extends ChannelInboundHandlerAdapter {
 
     private static final Configuration CONFIGURATION = new ConfigurationImpl();
 
-    private Cache cache;
+    private HexCodeService hexCodeService;
 
-    public InboundWebSocketHandler(Cache cache) {
-        this.cache = cache;
+    public InboundWebSocketHandler(HexCodeService hexCodeService) {
+        this.hexCodeService = hexCodeService;
     }
 
     @Override
@@ -54,7 +55,7 @@ public class InboundWebSocketHandler extends ChannelInboundHandlerAdapter {
 
                                 ctx.channel().write(new TextWebSocketFrame(contents.toString()));
                                 // TODO: Sort by creation Date
-                                cache.set(fileName, contents.toString());
+                                hexCodeService.setImageHexCode(fileName, contents.toString());
                                 ctx.flush();
                             }
                         }
