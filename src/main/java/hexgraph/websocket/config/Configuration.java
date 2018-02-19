@@ -9,5 +9,11 @@ public interface Configuration {
 
     String getDatabaseNode();
 
-    int getDatabasePort();
+    Integer getDatabasePort();
+
+    String getDatabaseName();
+
+    String getDatabaseReplicationStrategy();
+
+    Integer getDatabaseReplicationFactor();
 }

@@ -8,7 +8,7 @@ public interface HexCodeDao {
 
     void createDatabase(DbDataSource dbDataSource);
 
-    void createHexCodeTable();
+    void createHexCodeTable(DbDataSource dbDataSource);
 
     void getImageHexCode(String imagePath);
 

@@ -22,7 +22,13 @@ public class ConfigurationSingleton {
 
     private static final String DATABASE_PORT = "db.port";
 
-    private int port;
+    private static final String DATABASE_NAME = "db.name";
+
+    private static final String DATABASE_REPLICATION_STRATEGY = "db.replication.strategy";
+
+    private static final String DATABASE_REPLICATION_FACTOR = "db.replication.factor";
+
+    private Integer port;
 
     private String directory;
 
@@ -30,7 +36,13 @@ public class ConfigurationSingleton {
 
     private String databaseNode;
 
-    private int databasePort;
+    private Integer databasePort;
+
+    private String databaseName;
+
+    private String databaseReplicationStrategy;
+
+    private Integer databaseReplicationFactor;
 
     private ConfigurationSingleton() {
         Properties properties = new Properties();
@@ -41,11 +53,14 @@ public class ConfigurationSingleton {
             LOG.error(e.getMessage());
         }
 
-        port = Integer.parseInt(properties.getProperty(PORT_NAME));
+        port = properties.getProperty(PORT_NAME) != null ? Integer.parseInt(properties.getProperty(PORT_NAME)) : null;
         directory = properties.getProperty(DIRECTORY_NAME);
         cacheUri = properties.getProperty(CACHE_URI_NAME);
         databaseNode = properties.getProperty(DATABASE_NODE);
-        databasePort = Integer.parseInt(properties.getProperty(DATABASE_PORT));
+        databasePort = properties.getProperty(DATABASE_PORT) != null ? Integer.parseInt(properties.getProperty(DATABASE_PORT)) : null;
+        databaseName = properties.getProperty(DATABASE_NAME);
+        databaseReplicationStrategy = properties.getProperty(DATABASE_REPLICATION_STRATEGY);
+        databaseReplicationFactor = properties.getProperty(DATABASE_REPLICATION_FACTOR) != null ? Integer.parseInt(properties.getProperty(DATABASE_REPLICATION_FACTOR)) : null;
     }
 
     private static class SingletonHelper {
@@ -56,7 +71,7 @@ public class ConfigurationSingleton {
         return SingletonHelper.INSTANCE;
     }
 
-    public int getPort() {
+    public Integer getPort() {
         return port;
     }
 
@@ -72,7 +87,19 @@ public class ConfigurationSingleton {
         return databaseNode;
     }
 
-    public int getDatabasePort() {
+    public Integer getDatabasePort() {
         return databasePort;
+    }
+
+    public String getDatabaseName() {
+        return databaseName;
+    }
+
+    public String getDatabaseReplicationStrategy() {
+        return databaseReplicationStrategy;
+    }
+
+    public Integer getDatabaseReplicationFactor() {
+        return databaseReplicationFactor;
     }
 }

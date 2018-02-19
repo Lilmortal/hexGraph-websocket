@@ -56,6 +56,7 @@ public class InboundWebSocketHandler extends ChannelInboundHandlerAdapter {
                                 ctx.channel().write(new TextWebSocketFrame(contents.toString()));
                                 // TODO: Sort by creation Date
                                 hexCodeService.setImageHexCode(fileName, contents.toString());
+                                hexCodeService.getImageHexCode(fileName);
                                 ctx.flush();
                             }
                         }

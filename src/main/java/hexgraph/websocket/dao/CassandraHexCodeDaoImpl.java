@@ -32,17 +32,21 @@ public class CassandraHexCodeDaoImpl implements HexCodeDao {
     @Override
     public void createDatabase(DbDataSource dbDataSource) {
         session.execute(String.format(
-                "CREATE KEYSPACE IF NOT EXISTS %s" +
+                "CREATE KEYSPACE IF NOT EXISTS %s " +
                         "WITH replication = {'class': '%s', 'replication_factor':%d};"
                 , dbDataSource.getName(), dbDataSource.getReplicationStrategy(), dbDataSource.getReplicationFactor()));
     }
 
     @Override
-    public void createHexCodeTable() {
-        StringBuilder sb = new StringBuilder("CREATE TABLE IF NOT EXISTS " + TableList.HEX_CODE_TABLE + "(");
+    public void createHexCodeTable(DbDataSource dbDataSource) {
+        session.execute("USE " + dbDataSource.getName() + ";");
+
+        StringBuilder sb = new StringBuilder();
+        sb.append("CREATE TABLE IF NOT EXISTS " + TableList.HEX_CODE_TABLE + "(");
         sb.append("imagePath text PRIMARY KEY,");
-        sb.append("creationDate date,");
-        sb.append("counts timestamp");
+        sb.append("creationDate text,");
+        sb.append("counts text");
+        sb.append(");");
         session.execute(sb.toString());
     }
 
@@ -57,10 +61,10 @@ public class CassandraHexCodeDaoImpl implements HexCodeDao {
 
     @Override
     public void insertImageHexCode(String imagePath, LocalDateTime creationDate, String counts) {
-        PreparedStatement statement = session.prepare(String.format("INSERT INTO %s (imagePath, creationDate, counts) VALUES (?, ?, ?);"));
+        PreparedStatement statement = session.prepare(String.format("INSERT INTO %s (imagePath, creationDate, counts) VALUES (?, ?, ?);", TableList.HEX_CODE_TABLE));
 
         BoundStatement boundStatement = new BoundStatement(statement);
-        ResultSet resultSet = session.execute(boundStatement.bind(imagePath, creationDate, counts));
+        ResultSet resultSet = session.execute(boundStatement.bind(imagePath, creationDate.toString(), counts));
         LOGGER.info(resultSet.toString());
     }
 

@@ -24,7 +24,22 @@ public class ConfigurationImpl implements Configuration {
     }
 
     @Override
-    public int getDatabasePort() {
+    public Integer getDatabasePort() {
         return configurationSingleton.getDatabasePort();
+    }
+
+    @Override
+    public String getDatabaseName() {
+        return configurationSingleton.getDatabaseName();
+    }
+
+    @Override
+    public String getDatabaseReplicationStrategy() {
+        return configurationSingleton.getDatabaseReplicationStrategy();
+    }
+
+    @Override
+    public Integer getDatabaseReplicationFactor() {
+        return configurationSingleton.getDatabaseReplicationFactor();
     }
 }
