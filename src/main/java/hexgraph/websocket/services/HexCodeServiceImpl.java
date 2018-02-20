@@ -65,7 +65,7 @@ public class HexCodeServiceImpl implements HexCodeService {
 
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
             LocalDateTime creationDate = LocalDateTime.parse(jsonNode.get("creationDate").asText(), formatter);
-            String counts = jsonNode.get("counts").asText();
+            String counts = jsonNode.get("counts").toString();
             this.setImageHexCode(imagePath, creationDate, counts);
         } catch (IOException e) {
             LOGGER.error(e.getMessage());

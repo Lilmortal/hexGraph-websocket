@@ -1,7 +1,6 @@
 package hexgraph.websocket.dao;
 
 import java.time.LocalDateTime;
-import java.util.Map;
 
 public interface HexCodeDao {
     void connect(DbConnectDataSource dbConnectDataSource);
