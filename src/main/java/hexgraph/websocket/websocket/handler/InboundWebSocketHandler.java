@@ -1,21 +1,17 @@
 package hexgraph.websocket.websocket.handler;
 
-import hexgraph.websocket.cache.Cache;
-import hexgraph.websocket.cache.RedisCache;
 import hexgraph.websocket.config.Configuration;
 import hexgraph.websocket.config.ConfigurationImpl;
 import hexgraph.websocket.services.HexCodeService;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
-import io.netty.handler.codec.http.websocketx.*;
+import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
+import io.netty.handler.codec.http.websocketx.WebSocketFrame;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.nio.file.*;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.concurrent.Future;
 
 public class InboundWebSocketHandler extends ChannelInboundHandlerAdapter {
     public static final Logger LOGGER = LoggerFactory.getLogger(InboundWebSocketHandler.class);

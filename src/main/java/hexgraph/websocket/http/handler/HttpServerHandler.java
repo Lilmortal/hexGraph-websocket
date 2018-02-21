@@ -1,6 +1,5 @@
 package hexgraph.websocket.http.handler;
 
-import hexgraph.websocket.cache.Cache;
 import hexgraph.websocket.services.HexCodeService;
 import hexgraph.websocket.websocket.handler.InboundWebSocketHandler;
 import io.netty.channel.ChannelHandlerContext;

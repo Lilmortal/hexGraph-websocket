@@ -1,7 +1,5 @@
 package hexgraph.websocket.server;
 
-import hexgraph.websocket.cache.Cache;
-import hexgraph.websocket.cache.RedisCache;
 import hexgraph.websocket.config.Configuration;
 import hexgraph.websocket.config.ConfigurationImpl;
 import hexgraph.websocket.http.initializer.HTTPInitializer;
@@ -15,9 +13,6 @@ import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
 
 public class Server {
     public static final Logger LOGGER = LoggerFactory.getLogger(Server.class);

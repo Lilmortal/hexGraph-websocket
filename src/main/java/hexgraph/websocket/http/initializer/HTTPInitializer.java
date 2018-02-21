@@ -1,10 +1,7 @@
 package hexgraph.websocket.http.initializer;
 
-import hexgraph.websocket.cache.Cache;
-import hexgraph.websocket.cache.RedisCache;
 import hexgraph.websocket.config.Configuration;
 import hexgraph.websocket.config.ConfigurationImpl;
-import hexgraph.websocket.dao.DbDataSource;
 import hexgraph.websocket.http.handler.HttpServerHandler;
 import hexgraph.websocket.services.HexCodeService;
 import hexgraph.websocket.services.HexCodeServiceImpl;

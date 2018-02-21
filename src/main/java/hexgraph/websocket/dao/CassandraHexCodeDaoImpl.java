@@ -56,7 +56,7 @@ public class CassandraHexCodeDaoImpl implements HexCodeDao {
 
         BoundStatement boundStatement = new BoundStatement(statement);
         ResultSet resultSet = session.execute(boundStatement.bind(imagePath));
-        LOGGER.info(resultSet.toString());
+        LOGGER.info(resultSet.one().toString());
     }
 
     @Override

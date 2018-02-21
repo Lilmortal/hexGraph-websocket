@@ -12,11 +12,11 @@ public class ConfigurationSingleton {
 
     private static final String CONFIG_NAME = "config.properties";
 
-    private static final String PORT_NAME = "port";
-
     private static final String DIRECTORY_NAME = "directory";
 
-    private static final String CACHE_URI_NAME = "cache.uri";
+    private static final String CACHE_NODE = "cache.node";
+
+    private static final String CACHE_PORT = "cache.port";
 
     private static final String DATABASE_NODE = "db.node";
 
@@ -28,11 +28,11 @@ public class ConfigurationSingleton {
 
     private static final String DATABASE_REPLICATION_FACTOR = "db.replication.factor";
 
-    private Integer port;
-
     private String directory;
 
-    private String cacheUri;
+    private String cacheNode;
+
+    private Integer cachePort;
 
     private String databaseNode;
 
@@ -53,9 +53,9 @@ public class ConfigurationSingleton {
             LOG.error(e.getMessage());
         }
 
-        port = properties.getProperty(PORT_NAME) != null ? Integer.parseInt(properties.getProperty(PORT_NAME)) : null;
         directory = properties.getProperty(DIRECTORY_NAME);
-        cacheUri = properties.getProperty(CACHE_URI_NAME);
+        cacheNode = properties.getProperty(CACHE_NODE);
+        cachePort = properties.getProperty(CACHE_PORT) != null ? Integer.parseInt(properties.getProperty(CACHE_PORT)) : null;
         databaseNode = properties.getProperty(DATABASE_NODE);
         databasePort = properties.getProperty(DATABASE_PORT) != null ? Integer.parseInt(properties.getProperty(DATABASE_PORT)) : null;
         databaseName = properties.getProperty(DATABASE_NAME);
@@ -71,16 +71,16 @@ public class ConfigurationSingleton {
         return SingletonHelper.INSTANCE;
     }
 
-    public Integer getPort() {
-        return port;
-    }
-
     public String getDirectory() {
         return directory;
     }
 
-    public String getCacheUri() {
-        return cacheUri;
+    public String getCacheNode() {
+        return cacheNode;
+    }
+
+    public Integer getCachePort() {
+        return cachePort;
     }
 
     public String getDatabaseNode() {

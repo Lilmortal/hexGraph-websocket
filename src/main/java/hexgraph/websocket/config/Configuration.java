@@ -1,11 +1,11 @@
 package hexgraph.websocket.config;
 
 public interface Configuration {
-    int getPort();
-
     String getDirectory();
 
-    String getCacheUri();
+    String getCacheNode();
+
+    Integer getCachePort();
 
     String getDatabaseNode();
 

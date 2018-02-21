@@ -2,14 +2,9 @@ package hexgraph.websocket.services;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import hexgraph.websocket.cache.Cache;
-import hexgraph.websocket.cache.RedisCache;
 import hexgraph.websocket.config.Configuration;
 import hexgraph.websocket.config.ConfigurationImpl;
-import hexgraph.websocket.dao.CassandraHexCodeDaoImpl;
-import hexgraph.websocket.dao.DbConnectDataSource;
-import hexgraph.websocket.dao.DbDataSource;
-import hexgraph.websocket.dao.HexCodeDao;
+import hexgraph.websocket.dao.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,18 +16,17 @@ import java.util.Map;
 public class HexCodeServiceImpl implements HexCodeService {
     public static final Logger LOGGER = LoggerFactory.getLogger(HexCodeServiceImpl.class);
 
-    private Configuration configuration = new ConfigurationImpl();
-
-    private Cache hexCodeCache = new RedisCache();
+    private HexCodeDao hexCodeCache = new RedisHexCodeDaoImpl();
 
     private HexCodeDao hexCodeDao = new CassandraHexCodeDaoImpl();
 
     @Override
     public void connect(Configuration configuration) {
-        hexCodeCache.connect(configuration.getCacheUri());
+        DbConnectDataSource cacheDataSource = DbConnectDataSource.builder(configuration.getCacheNode()).port(configuration.getCachePort()).createDataSource();
+        hexCodeCache.connect(cacheDataSource);
 
-        DbConnectDataSource dbConnectDataSource = DbConnectDataSource.builder(configuration.getDatabaseNode()).port(configuration.getDatabasePort()).createDataSource();
-        hexCodeDao.connect(dbConnectDataSource);
+        DbConnectDataSource databaseDataSource = DbConnectDataSource.builder(configuration.getDatabaseNode()).port(configuration.getDatabasePort()).createDataSource();
+        hexCodeDao.connect(databaseDataSource);
 
         DbDataSource dbDataSource = DbDataSource.builder(configuration.getDatabaseName())
                 .replicationStrategy(configuration.getDatabaseReplicationStrategy())
@@ -55,6 +49,7 @@ public class HexCodeServiceImpl implements HexCodeService {
 
     @Override
     public void getImageHexCode(String imagePath) {
+        hexCodeCache.getImageHexCode(imagePath);
         hexCodeDao.getImageHexCode(imagePath);
     }
 
@@ -84,6 +79,7 @@ public class HexCodeServiceImpl implements HexCodeService {
 
     @Override
     public void setImageHexCode(String imagePath, LocalDateTime creationDate, String counts) {
+        hexCodeCache.insertImageHexCode(imagePath, creationDate, counts);
         hexCodeDao.insertImageHexCode(imagePath, creationDate, counts);
     }
 }
