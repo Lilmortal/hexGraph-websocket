@@ -14,6 +14,8 @@ public class ConfigurationSingleton {
 
     private static final String DIRECTORY_NAME = "directory";
 
+    private static final String CHANNEL_PORT = "channel.port";
+
     private static final String CACHE_NODE = "cache.node";
 
     private static final String CACHE_PORT = "cache.port";
@@ -29,6 +31,8 @@ public class ConfigurationSingleton {
     private static final String DATABASE_REPLICATION_FACTOR = "db.replication.factor";
 
     private String directory;
+
+    private Integer channelPort;
 
     private String cacheNode;
 
@@ -54,6 +58,7 @@ public class ConfigurationSingleton {
         }
 
         directory = properties.getProperty(DIRECTORY_NAME);
+        channelPort = properties.getProperty(CHANNEL_PORT) != null ? Integer.parseInt(properties.getProperty(CHANNEL_PORT)) : null;
         cacheNode = properties.getProperty(CACHE_NODE);
         cachePort = properties.getProperty(CACHE_PORT) != null ? Integer.parseInt(properties.getProperty(CACHE_PORT)) : null;
         databaseNode = properties.getProperty(DATABASE_NODE);
@@ -73,6 +78,10 @@ public class ConfigurationSingleton {
 
     public String getDirectory() {
         return directory;
+    }
+
+    public Integer getChannelPort() {
+        return channelPort;
     }
 
     public String getCacheNode() {

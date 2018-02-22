@@ -3,6 +3,8 @@ package hexgraph.websocket.config;
 public interface Configuration {
     String getDirectory();
 
+    Integer getChannelPort();
+
     String getCacheNode();
 
     Integer getCachePort();

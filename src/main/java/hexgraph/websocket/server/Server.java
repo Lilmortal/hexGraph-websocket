@@ -35,7 +35,7 @@ public class Server {
                     .handler(new LoggingHandler(LogLevel.INFO))
                     .childHandler(new HTTPInitializer());
 
-            Channel channel = serverBootstrap.bind(configuration.getPort()).sync().channel();
+            Channel channel = serverBootstrap.bind(configuration.getChannelPort()).sync().channel();
             channel.closeFuture().sync();
         } catch (InterruptedException e) {
             LOGGER.error(e.getMessage());

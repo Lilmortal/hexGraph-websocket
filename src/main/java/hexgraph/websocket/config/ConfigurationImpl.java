@@ -9,6 +9,11 @@ public class ConfigurationImpl implements Configuration {
     }
 
     @Override
+    public Integer getChannelPort() {
+        return configurationSingleton.getChannelPort();
+    }
+
+    @Override
     public String getCacheNode() {
         return configurationSingleton.getCacheNode();
     }

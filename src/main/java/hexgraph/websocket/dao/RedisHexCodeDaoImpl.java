@@ -1,12 +1,18 @@
 package hexgraph.websocket.dao;
 
 import io.lettuce.core.RedisClient;
+import io.lettuce.core.RedisFuture;
 import io.lettuce.core.api.StatefulRedisConnection;
 import io.lettuce.core.api.async.RedisAsyncCommands;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.time.LocalDateTime;
+import java.util.concurrent.ExecutionException;
 
 public class RedisHexCodeDaoImpl implements HexCodeDao {
+    public static final Logger LOGGER = LoggerFactory.getLogger(RedisHexCodeDaoImpl.class);
+
     private StatefulRedisConnection<String, String> connection;
 
     private RedisAsyncCommands<String, String> asyncCommands;
@@ -31,7 +37,15 @@ public class RedisHexCodeDaoImpl implements HexCodeDao {
 
     @Override
     public void getImageHexCode(String imagePath) {
-        asyncCommands.get(imagePath);
+
+        RedisFuture<String> result = asyncCommands.get(imagePath);
+        try {
+            LOGGER.info(result.get().toString());
+        } catch (InterruptedException e) {
+            LOGGER.error(e.getMessage());
+        } catch (ExecutionException e) {
+            LOGGER.error(e.getMessage());
+        }
     }
 
     @Override
